@@ -1,11 +1,10 @@
 %option noyywrap
 %{
-	int nmacro,nheader;
+	int nconstant;
 %}
 
 %%
-^#define {nmacro++;}
-^#include {nheader++;}
+[0-9]+ {nconstant++; printf("%s is a constant",yytext);}
 %%
 int main()
 {
@@ -14,9 +13,8 @@ int main()
 	printf("Enter the file name: ");
 	scanf("%s",myfile);
 	f = fopen(myfile,"r");
-	yyin = fp;
+	yyin = f;
         yylex();
-        printf("No of macros: %d\n",nmacro);
-	printf("No of headers: %d\n",nheader);
+        printf("No of constants: %d\n",nconstant);
 	fclose(yyin);
 }
